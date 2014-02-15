@@ -1,0 +1,25 @@
+{
+    "name": "ezzatron/php-error-handling",
+    "description": "An attempt at a PSR-style standards document detailing PHP error handling best practices.",
+    "keywords": ["error", "handling", "handler", "exception", "errorexception", "fault", "failure"],
+    "homepage": "https://github.com/ezzatron/php-error-handling",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Erin Millard",
+            "email": "ezzatron@gmail.com",
+            "homepage": "http://ezzatron.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "icecave/archer": "~1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Psr\\Error\\": "src"
+        }
+    }
+}
