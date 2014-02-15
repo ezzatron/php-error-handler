@@ -22,8 +22,7 @@
     <h1><a href="../../Psr/Error.html">Psr\Error</a>\ErrorHandler</h1>
     </div>
         <div class="content">
-                <p>class    <strong>ErrorHandler</strong>        implements
-        <a href="../../Psr/Error/ErrorHandlerInterface.html"><abbr title="Psr\Error\ErrorHandlerInterface">ErrorHandlerInterface</abbr></a></p>
+                <p>class    <strong>ErrorHandler</strong></p>
 
             <div class="description">
             <p>Handles PHP errors by converting them to error exceptions.</p>
@@ -41,7 +40,7 @@
                     boolean
                 </td>
                 <td class="last">
-                    <a href="#method_handleError">handleError</a>(integer $severity, string $message, string $filename, integer $lineNumber)
+                    <a href="#method___invoke">__invoke</a>(integer $severity, string $message, string $path, integer $lineNumber)
                     <p>Handle a PHP error.</p>
                 </td>
                 <td></td>
@@ -51,10 +50,10 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method_handleError">
-        <div class="location">at line 21</div>
+                        <h3 id="method___invoke">
+        <div class="location">at line 23</div>
         <code>            public            boolean
-    <strong>handleError</strong>(integer $severity, string $message, string $filename, integer $lineNumber)</code>
+    <strong>__invoke</strong>(integer $severity, string $message, string $path, integer $lineNumber)</code>
     </h3>
     <div class="details">
         <p>Handle a PHP error.</p>
@@ -76,8 +75,8 @@
             </tr>
                     <tr>
                 <td>string</td>
-                <td>$filename</td>
-                <td>The filename in which the error was raised.</td>
+                <td>$path</td>
+                <td>The path to the file in which the error was raised.</td>
             </tr>
                     <tr>
                 <td>integer</td>
@@ -101,7 +100,7 @@
 
                     <table>
                     <tr>
-                <td><abbr title="ErrorExceptionInterface">ErrorExceptionInterface</abbr></td>
+                <td><a href="http://php.net/ErrorException"><abbr title="ErrorException">ErrorException</abbr></a></td>
                 <td>Representing the error, unless the error is a deprecation message, or '@' suppression is in use.</td>
             </tr>
             </table>

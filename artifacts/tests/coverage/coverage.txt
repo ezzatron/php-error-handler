@@ -1,14 +1,12 @@
 
 
 Code Coverage Report 
-  2014-02-15 04:49:58
+  2014-02-15 06:00:15
 
  Summary: 
-  Classes: 100.00% (2/2)
-  Methods: 100.00% (2/2)
-  Lines:   100.00% (7/7)
+  Classes: 100.00% (1/1)
+  Methods: 100.00% (1/1)
+  Lines:   100.00% (5/5)
 
-\Psr\Error::ErrorException
-  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  2/  2)
 \Psr\Error::ErrorHandler
   Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  5/  5)
