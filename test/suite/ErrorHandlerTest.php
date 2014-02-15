@@ -24,6 +24,7 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
             // standard severities - handled
             'Error'             => array(E_ERROR,             true),
             'User error'        => array(E_USER_ERROR,        true),
+            'Recoverable error' => array(E_RECOVERABLE_ERROR, true),
             'Warning'           => array(E_WARNING,           true),
             'User warning'      => array(E_USER_WARNING,      true),
             'Notice'            => array(E_NOTICE,            true),
@@ -40,7 +41,6 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
             'Compile error'     => array(E_COMPILE_ERROR,     true),
             'Compile warning'   => array(E_COMPILE_WARNING,   true),
             'Strict'            => array(E_STRICT,            true),
-            'Recoverable error' => array(E_RECOVERABLE_ERROR, true),
             'All'               => array(E_ALL,               true),
         );
     }
