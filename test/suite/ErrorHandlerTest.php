@@ -2,6 +2,7 @@
 
 namespace Psr\Error;
 
+use ErrorException;
 use PHPUnit_Framework_TestCase;
 
 class ErrorHandlerTest extends PHPUnit_Framework_TestCase
@@ -9,8 +10,6 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->errorReporting = error_reporting(E_DEPRECATED);
-
-        $this->handler = new ErrorHandler;
     }
 
     protected function tearDown()
@@ -51,14 +50,15 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleError($severity, $isHandled)
     {
+        $handler = new ErrorHandler;
         $error = null;
         $wasHandled = null;
         try {
-            $wasHandled = $this->handler->handleError($severity, 'Error message.', '/path/to/file', 111);
-        } catch (ErrorExceptionInterface $error) {}
+            $wasHandled = $handler($severity, 'Error message.', '/path/to/file', 111);
+        } catch (ErrorException $error) {}
 
         if ($isHandled) {
-            $this->assertEquals(new ErrorException($severity, 'Error message.', '/path/to/file', 111), $error);
+            $this->assertEquals(new ErrorException('Error message.', 0, $severity, '/path/to/file', 111), $error);
         } else {
             $this->assertFalse($wasHandled);
         }
@@ -69,8 +69,9 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleErrorAtSuppression($severity, $isHandled)
     {
+        $handler = new ErrorHandler;
         error_reporting(0);
 
-        $this->assertFalse($this->handler->handleError($severity, 'Error message.', '/path/to/file', 111));
+        $this->assertFalse($handler($severity, 'Error message.', '/path/to/file', 111));
     }
 }

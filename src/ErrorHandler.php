@@ -2,23 +2,25 @@
 
 namespace Psr\Error;
 
+use ErrorException;
+
 /**
  * Handles PHP errors by converting them to error exceptions.
  */
-class ErrorHandler implements ErrorHandlerInterface
+class ErrorHandler
 {
     /**
      * Handle a PHP error.
      *
      * @param integer $severity   The severity of the error.
      * @param string  $message    The error message.
-     * @param string  $filename   The filename in which the error was raised.
+     * @param string  $path       The path to the file in which the error was raised.
      * @param integer $lineNumber The line number in which the error was raised.
      *
-     * @return boolean                 True if the error was handled, otherwise false.
-     * @throws ErrorExceptionInterface Representing the error, unless the error is a deprecation message, or '@' suppression is in use.
+     * @return boolean        True if the error was handled, otherwise false.
+     * @throws ErrorException Representing the error, unless the error is a deprecation message, or '@' suppression is in use.
      */
-    public function handleError($severity, $message, $filename, $lineNumber)
+    public function __invoke($severity, $message, $path, $lineNumber)
     {
         if (E_DEPRECATED === $severity || E_USER_DEPRECATED === $severity) {
             return false;
@@ -27,6 +29,6 @@ class ErrorHandler implements ErrorHandlerInterface
             return false;
         }
 
-        throw new ErrorException($severity, $message, $filename, $lineNumber);
+        throw new ErrorException($message, 0, $severity, $path, $lineNumber);
     }
 }
