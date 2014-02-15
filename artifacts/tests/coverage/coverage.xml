@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1392444015">
-  <project timestamp="1392444015">
+<coverage generated="1392454515">
+  <project timestamp="1392454515">
     <package name="Psr\Error">
       <file name="/home/travis/build/ezzatron/php-error-handling/src/ErrorHandler.php">
         <class name="ErrorHandler" namespace="Psr\Error">
