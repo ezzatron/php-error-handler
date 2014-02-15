@@ -1,26 +1,46 @@
 # Error handler
 
-This document defines the behavior of a PHP error handler that throws exceptions
-to represent raised errors.
-
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
 interpreted as described in [RFC 2119].
 
-## 1. Specification
+## 1. Overview
+
+This document defines the behavior of a PHP error handler that throws exceptions
+to represent raised errors. This strategy allows for simple error handling
+logic, and improved interoperability through consistency of error behavior.
+
+## 2. Specification
 
 - The error handler MUST throw an exception of type [ErrorException] when an
-  error occurs unless stated otherwise by this document.
+  error occurs unless stated otherwise by this document.
 - The error handler MUST NOT halt execution.
 - The error handler MUST NOT throw an exception if the error's severity is
-  `E_DEPRECATED` or `E_USER_DEPRECATED`.
+  `E_DEPRECATED` or `E_USER_DEPRECATED`.
 - The error handler MUST NOT throw an exception if the error control operator
-  (`@`) is in use.
+  (`@`) is in use.
 - The exception methods `getSeverity()`, `getMessage()`, `getFile()`, and
-  `getLine()` MUST return identical values to those passed to the error handler.
+  `getLine()` MUST return identical values to those passed to the error handler.
 - Exceptions thrown MAY be a subclass of [ErrorException].
 - The installed error handler MAY perform other operations before its execution
-  completes, such as logging the error details.
+  completes, such as logging the error details.
+
+## 3. Example implementation
+
+```php
+set_error_handler(
+    function ($severity, $message, $path, $lineNumber) {
+        if (E_DEPRECATED === $severity || E_USER_DEPRECATED === $severity) {
+            return false;
+        }
+        if (0 === error_reporting()) {
+            return false;
+        }
+
+        throw new ErrorException($message, 0, $severity, $path, $lineNumber);
+    }
+);
+```
 
 <!-- References -->
 
