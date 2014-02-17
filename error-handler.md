@@ -6,9 +6,9 @@ interpreted as described in [RFC 2119].
 
 ## 1. Overview
 
-This document defines the behavior of a PHP error handler that throws exceptions
-to represent raised errors. This strategy allows for simple error handling
-logic, and improved interoperability through consistency of error behavior.
+This document defines the behavior of an error handler that converts PHP errors
+to exceptions. This strategy allows for simple error handling logic, and
+improved interoperability through consistency of error behavior.
 
 ## 2. Specification
 

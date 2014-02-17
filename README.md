@@ -28,8 +28,7 @@ See [error-handling.md](error-handling.md).
 
 [API documentation]: http://lqnt.co/php-error-handling/artifacts/documentation/api/
 [Composer]: http://getcomposer.org/
-[build-image]: http://img.shields.io/travis/eloquent/php-error-handling/develop.svg "Current build status for the develop branch"
-[Current build status]: https://travis-ci.org/eloquent/php-error-handling
-[coverage-image]: http://img.shields.io/coveralls/eloquent/php-error-handling/develop.svg "Current test coverage for the develop branch"
-[Current coverage status]: https://coveralls.io/r/eloquent/php-error-handling
-[eloquent/php-error-handling]: https://packagist.org/packages/eloquent/php-error-handling
+[build-image]: http://img.shields.io/travis/ezzatron/php-error-handling/develop.svg "Current build status for the develop branch"
+[Current build status]: https://travis-ci.org/ezzatron/php-error-handling
+[coverage-image]: http://img.shields.io/coveralls/ezzatron/php-error-handling/develop.svg "Current test coverage for the develop branch"
+[Current coverage status]: https://coveralls.io/r/ezzatron/php-error-handling
