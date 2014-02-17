@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="" tests="32" assertions="32" failures="0" errors="0" time="0.232804">
-    <testsuite name="Psr\Error\ErrorHandlerTest" file="/home/travis/build/ezzatron/php-error-handling/test/suite/ErrorHandlerTest.php" namespace="Psr\Error" fullPackage="Psr.Error" tests="32" assertions="32" failures="0" errors="0" time="0.232804">
-      <testsuite name="Psr\Error\ErrorHandlerTest::testHandleError" tests="16" assertions="16" failures="0" errors="0" time="0.163875">
-        <testcase name="testHandleError with data set &quot;Error&quot;" assertions="1" time="0.029110"/>
-        <testcase name="testHandleError with data set &quot;User error&quot;" assertions="1" time="0.009402"/>
-        <testcase name="testHandleError with data set &quot;Recoverable error&quot;" assertions="1" time="0.009360"/>
-        <testcase name="testHandleError with data set &quot;Warning&quot;" assertions="1" time="0.009657"/>
-        <testcase name="testHandleError with data set &quot;User warning&quot;" assertions="1" time="0.009091"/>
-        <testcase name="testHandleError with data set &quot;Notice&quot;" assertions="1" time="0.008843"/>
-        <testcase name="testHandleError with data set &quot;User notice&quot;" assertions="1" time="0.009032"/>
-        <testcase name="testHandleError with data set &quot;Deprecated&quot;" assertions="1" time="0.005635"/>
-        <testcase name="testHandleError with data set &quot;User deprecated&quot;" assertions="1" time="0.003969"/>
-        <testcase name="testHandleError with data set &quot;Parse error&quot;" assertions="1" time="0.009217"/>
-        <testcase name="testHandleError with data set &quot;Core error&quot;" assertions="1" time="0.008820"/>
-        <testcase name="testHandleError with data set &quot;Core warning&quot;" assertions="1" time="0.010501"/>
-        <testcase name="testHandleError with data set &quot;Compile error&quot;" assertions="1" time="0.010296"/>
-        <testcase name="testHandleError with data set &quot;Compile warning&quot;" assertions="1" time="0.010811"/>
-        <testcase name="testHandleError with data set &quot;Strict&quot;" assertions="1" time="0.010684"/>
-        <testcase name="testHandleError with data set &quot;All&quot;" assertions="1" time="0.009447"/>
+  <testsuite name="" tests="32" assertions="32" failures="0" errors="0" time="0.181226">
+    <testsuite name="Psr\Error\ErrorHandlerTest" file="/home/travis/build/ezzatron/php-error-handling/test/suite/ErrorHandlerTest.php" namespace="Psr\Error" fullPackage="Psr.Error" tests="32" assertions="32" failures="0" errors="0" time="0.181226">
+      <testsuite name="Psr\Error\ErrorHandlerTest::testHandleError" tests="16" assertions="16" failures="0" errors="0" time="0.128929">
+        <testcase name="testHandleError with data set &quot;Error&quot;" assertions="1" time="0.025517"/>
+        <testcase name="testHandleError with data set &quot;User error&quot;" assertions="1" time="0.007348"/>
+        <testcase name="testHandleError with data set &quot;Recoverable error&quot;" assertions="1" time="0.007640"/>
+        <testcase name="testHandleError with data set &quot;Warning&quot;" assertions="1" time="0.007413"/>
+        <testcase name="testHandleError with data set &quot;User warning&quot;" assertions="1" time="0.007665"/>
+        <testcase name="testHandleError with data set &quot;Notice&quot;" assertions="1" time="0.007555"/>
+        <testcase name="testHandleError with data set &quot;User notice&quot;" assertions="1" time="0.007690"/>
+        <testcase name="testHandleError with data set &quot;Deprecated&quot;" assertions="1" time="0.004168"/>
+        <testcase name="testHandleError with data set &quot;User deprecated&quot;" assertions="1" time="0.003261"/>
+        <testcase name="testHandleError with data set &quot;Parse error&quot;" assertions="1" time="0.007232"/>
+        <testcase name="testHandleError with data set &quot;Core error&quot;" assertions="1" time="0.007180"/>
+        <testcase name="testHandleError with data set &quot;Core warning&quot;" assertions="1" time="0.007250"/>
+        <testcase name="testHandleError with data set &quot;Compile error&quot;" assertions="1" time="0.007226"/>
+        <testcase name="testHandleError with data set &quot;Compile warning&quot;" assertions="1" time="0.007249"/>
+        <testcase name="testHandleError with data set &quot;Strict&quot;" assertions="1" time="0.007261"/>
+        <testcase name="testHandleError with data set &quot;All&quot;" assertions="1" time="0.007274"/>
       </testsuite>
-      <testsuite name="Psr\Error\ErrorHandlerTest::testHandleErrorAtSuppression" tests="16" assertions="16" failures="0" errors="0" time="0.068929">
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Error&quot;" assertions="1" time="0.004444"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;User error&quot;" assertions="1" time="0.003942"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Recoverable error&quot;" assertions="1" time="0.003970"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Warning&quot;" assertions="1" time="0.004536"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;User warning&quot;" assertions="1" time="0.004563"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Notice&quot;" assertions="1" time="0.004508"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;User notice&quot;" assertions="1" time="0.004462"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Deprecated&quot;" assertions="1" time="0.004274"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;User deprecated&quot;" assertions="1" time="0.004167"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Parse error&quot;" assertions="1" time="0.004320"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Core error&quot;" assertions="1" time="0.004128"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Core warning&quot;" assertions="1" time="0.004199"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Compile error&quot;" assertions="1" time="0.004392"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Compile warning&quot;" assertions="1" time="0.004316"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;Strict&quot;" assertions="1" time="0.004474"/>
-        <testcase name="testHandleErrorAtSuppression with data set &quot;All&quot;" assertions="1" time="0.004235"/>
+      <testsuite name="Psr\Error\ErrorHandlerTest::testHandleErrorAtSuppression" tests="16" assertions="16" failures="0" errors="0" time="0.052297">
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Error&quot;" assertions="1" time="0.003305"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;User error&quot;" assertions="1" time="0.003278"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Recoverable error&quot;" assertions="1" time="0.003300"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Warning&quot;" assertions="1" time="0.003281"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;User warning&quot;" assertions="1" time="0.003279"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Notice&quot;" assertions="1" time="0.003213"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;User notice&quot;" assertions="1" time="0.003274"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Deprecated&quot;" assertions="1" time="0.003283"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;User deprecated&quot;" assertions="1" time="0.003272"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Parse error&quot;" assertions="1" time="0.003238"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Core error&quot;" assertions="1" time="0.003279"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Core warning&quot;" assertions="1" time="0.003278"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Compile error&quot;" assertions="1" time="0.003282"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Compile warning&quot;" assertions="1" time="0.003272"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;Strict&quot;" assertions="1" time="0.003253"/>
+        <testcase name="testHandleErrorAtSuppression with data set &quot;All&quot;" assertions="1" time="0.003210"/>
       </testsuite>
     </testsuite>
   </testsuite>
