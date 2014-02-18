@@ -1,7 +1,7 @@
-# RFC: PHP error handling
+# RFC: PHP error handler
 
-*An attempt at a PSR-style standards document detailing PHP error handling best
-practices.*
+*An attempt at a PSR-style standards document detailing a standard PHP error
+handler.*
 
 [![Current build status image][build-image]][Current build status]
 [![Current coverage status image][coverage-image]][Current coverage status]
