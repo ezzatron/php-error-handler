@@ -13,7 +13,7 @@ practices.*
 
 ## The standards document
 
-See [error-handling.md](error-handling.md).
+See [error-handler.md](error-handler.md).
 
 ## Running the test suite
 
