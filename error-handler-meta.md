@@ -214,6 +214,47 @@ allow package developers to ignore conflicts.
 
 - Introducing new Composer features would take time and effort.
 
+#### 3.2.3. Example package configurations
+
+Package requiring PSR-N error handling:
+
+```json
+{
+    "name": "vendor/package",
+    "require": {
+        "php": ">=5.3",
+        "psr/log": "~1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Package\\": "src"
+        }
+    },
+    "error-handling": "PSR-N"
+}
+```
+
+Root package capable of working with either handling strategy, but opting to
+use traditional error handling:
+
+```json
+{
+    "name": "vendor/project",
+    "require": {
+        "php": ">=5.3",
+        "psr/log": "~1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Project\\": "src"
+        }
+    },
+    "config": {
+        "use-error-handling": "traditional"
+    }
+}
+```
+
 ### 3.3. Solution B: Error handling management via existing Composer features
 
 This solution involves implementing error handling management by harnessing the
@@ -265,6 +306,66 @@ both `psr/error-exceptions` and `psr/traditional-errors`.
   actual handler installation becomes the responsibility of the developer,
   making it more prone to human error.
 - Conflict messages produced by Composer may be unclear.
+
+#### 3.3.3. Example package configurations
+
+Package requiring PSR-N error handling:
+
+```json
+{
+    "name": "vendor/package",
+    "require": {
+        "php": ">=5.3",
+        "psr/error-exceptions": "*",
+        "psr/log": "~1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Package\\": "src"
+        }
+    }
+}
+```
+
+Root package providing PSR-N error handling:
+
+```json
+{
+    "name": "vendor/project",
+    "require": {
+        "php": ">=5.3",
+        "psr/log": "~1"
+    },
+    "provide": {
+        "psr/error-exceptions": "1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Project\\": "src"
+        }
+    }
+}
+```
+
+Root package providing traditional error handling:
+
+```json
+{
+    "name": "vendor/project",
+    "require": {
+        "php": ">=5.3",
+        "psr/log": "~1"
+    },
+    "provide": {
+        "psr/traditional-errors": "1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Project\\": "src"
+        }
+    }
+}
+```
 
 ## 4. Justification for design decisions
 
