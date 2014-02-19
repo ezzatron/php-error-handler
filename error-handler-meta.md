@@ -138,6 +138,46 @@ From this example, it's immediately obvious that accounting for both situations
 is extremely tedious. The code is also harder to understand, and will require
 increased effort to unit test all possible code branches.
 
+### 2.3. Not having a standard is hurting everyone
+
+Without a formal specification for error handling, few PHP projects are designed
+to be truly interoperable in the way they deal with errors, and projects rarely
+specify the type of error handling they expect from their runtime environment.
+This leads to the situation where consumers of code can unknowingly rely on code
+that is fundamentally incompatible with the environment in which it will be run.
+
+Code producers also suffer. The added burden of designing code to work with
+multiple possible error handlers is tedious. Incompatible error handling
+strategies hinder code re-use, and foster mistrust in the code of others.
+
+## 3. What can be done to address the issue?
+
+### 3.1. Requirements for an effective solution
+
+- Packages / projects / frameworks / components need a way to specify the types
+  of error handling they support.
+- Consumers who pull in these packages as dependencies need a way to insure that
+  they have chosen compatible packages.
+- Error handlers form a part of the PHP runtime environment. Ideally, a
+  spec-conformant error handler should be installed before any other code is
+  executed, even before any class loaders are registered.
+
+This document will suggest two possible options for addressing these
+requirements. Both revolve around the dependency manager [Composer], although
+similar solutions could easily be extrapolated for other package/dependency
+management applications.
+
+### 3.2. Solution A: Error handling as a first-class Composer feature
+
+### 3.3. Solution B: Error handling specification through Composer meta-packages
+
+## 4. Justification for design decisions
+
+### 4.1. Why error severity is a poor metric
+
+## 5. Best practices going forward
+
 <!-- References -->
 
+[Composer]: https://getcomposer.org/
 [ErrorException]: http://php.net/manual/en/class.errorexception.php
