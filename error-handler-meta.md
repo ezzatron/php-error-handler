@@ -167,7 +167,12 @@ requirements. Both revolve around the dependency manager [Composer], although
 similar solutions could easily be extrapolated for other package/dependency
 management applications.
 
-### 3.2. Solution A: Error handling as a first-class Composer feature
+### 3.2. Solution A: Error handling management as a first-class Composer feature
+
+This solution involves implementing error handling management by introducing new
+Composer features. It's obviously not this document's place to prescribe
+features to the Composer project. This is simply intended as an example of an
+ideal situation.
 
 A new optional property `error-handling` would be added to the Composer package
 configuration schema. This property would allow one of three string values:
@@ -182,7 +187,7 @@ configuration schema. This property would allow one of three string values:
   under either error handling strategy.
 
 Another optional property `use-error-handling` would be added under the
-project-only section (`config`) of the Composer package configuration schema.
+project-only section ([config]) of the Composer package configuration schema.
 This property, used only in root packages, would allow one of two string values:
 `PSR-N`, or `traditional`, with `PSR-N` being the default.
 
@@ -197,17 +202,88 @@ brings the problem to the attention of the package developer, and allows them to
 make informed decisions about how to address the conflict.
 
 In addition to these new properties, some mechanism may have to be introduced to
-allow package developers to ignore these conflicts.
+allow package developers to ignore conflicts.
 
-### 3.3. Solution B: Error handling specification through Composer meta-packages
+#### 3.2.1. Pros
+
+- Error handling requirements are expressed clearly and succinctly.
+- The error handler is guaranteed to be installed before any errors occur.
+- First-class support in Composer would allow for clearer conflict messages.
+
+#### 3.2.2. Cons
+
+- Introducing new Composer features would take time and effort.
+
+### 3.3. Solution B: Error handling management via existing Composer features
+
+This solution involves implementing error handling management by harnessing the
+existing Composer dependency resolution system and [metapackages]. This solution
+could be implemented with very little effort (at least in terms of development).
+
+Package developers would add special metapackages to their Composer
+configuration's [require] section to specify their error handling requirements.
+Two metapackages would be defined, and published to [Packagist] by the FIG:
+`psr/error-exceptions` and `psr/traditional-errors`.
+
+- Requiring `psr/error-exceptions` would indicate that the package expects a
+  `PSR-N` conformant error handler to be installed, where `PSR-N` is the PSR
+  number of the error handler specification associated with this meta document.
+- Requiring `psr/traditional-errors` would indicate that the package expects the
+  error handler to behave in the same manner as the built-in PHP handler.
+- Requiring neither of the metapackages would implicitly indicate that the
+  package is capable of functioning under either error handling strategy.
+
+Root package developers would specify the type of error handling strategy in use
+by adding one of the metapackages to their Composer configuration's [provide]
+section.
+
+- Providing `psr/error-exceptions` would indicate that a `PSR-N` conformant
+  error handler will be installed.
+- Providing `psr/traditional-errors` would indicate that the installed error
+  handler will behave like the in-built PHP handler.
+
+It is then up to the root package developer to make good on their guarantee, and
+install any appropriate error handler implementations.
+
+During the normal process of dependency resolution, components that require
+incompatible error handling strategies would be highlighted as conflicts. This
+brings the problem to the attention of the package developer, and allows them to
+make informed decisions about how to address the conflict.
+
+If root package developers need to ignore conflicts, they can simply provide
+both `psr/error-exceptions` and `psr/traditional-errors`.
+
+#### 3.3.1. Pros
+
+- Little effort is required to implement.
+- Requires no new Composer features.
+
+#### 3.3.2. Cons
+
+- Error handling requirements are not expressed as clearly as solution A.
+- Stating that a package provides a particular handler is a weak guarantee. The
+  actual handler installation becomes the responsibility of the developer,
+  making it more prone to human error.
+- Conflict messages produced by Composer may be unclear.
 
 ## 4. Justification for design decisions
 
+*TBD*
+
 ### 4.1. Why error severity is a poor metric
 
+*TBD*
+
 ## 5. Best practices going forward
+
+*TBD*
 
 <!-- References -->
 
 [Composer]: https://getcomposer.org/
+[config]: https://getcomposer.org/doc/04-schema.md#config
 [ErrorException]: http://php.net/manual/en/class.errorexception.php
+[metapackages]: https://getcomposer.org/doc/04-schema.md#type
+[Packagist]: https://packagist.org/
+[provide]: https://getcomposer.org/doc/04-schema.md#provide
+[require]: https://getcomposer.org/doc/04-schema.md#require
