@@ -11,9 +11,10 @@ handler.*
 * Available as [Composer] package [ezzatron/php-error-handling].
 * [API documentation] available.
 
-## The standards document
+## The standards documents
 
-See [error-handler.md](error-handler.md).
+- The main error handler spec: [error-handler.md](error-handler.md).
+- Justification/recommendations: [error-handler-meta.md](error-handler-meta.md).
 
 ## Running the test suite
 
@@ -26,7 +27,6 @@ See [error-handler.md](error-handler.md).
 
 [PHPUnit]: http://phpunit.de/
 
-[API documentation]: http://lqnt.co/php-error-handling/artifacts/documentation/api/
 [Composer]: http://getcomposer.org/
 [build-image]: http://img.shields.io/travis/ezzatron/php-error-handling/develop.svg "Current build status for the develop branch"
 [Current build status]: https://travis-ci.org/ezzatron/php-error-handling
