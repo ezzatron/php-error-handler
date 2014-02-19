@@ -169,6 +169,36 @@ management applications.
 
 ### 3.2. Solution A: Error handling as a first-class Composer feature
 
+A new optional property `error-handling` would be added to the Composer package
+configuration schema. This property would allow one of three string values:
+`PSR-N`, `traditional`, or `any`, with `any` being the default.
+
+- A value of `PSR-N` would indicate that the package expects a `PSR-N`
+  conformant error handler to be installed, where `PSR-N` is the PSR number of
+  the error handler specification associated with this meta document.
+- A value of `traditional` would indicate that the package expects the error
+  handler to behave in the same manner as the built-in PHP handler.
+- A value of `any` would indicate that the package is capable of functioning
+  under either error handling strategy.
+
+Another optional property `use-error-handling` would be added under the
+project-only section (`config`) of the Composer package configuration schema.
+This property, used only in root packages, would allow one of two string values:
+`PSR-N`, or `traditional`, with `PSR-N` being the default.
+
+- A value of `PSR-N` would indicate that Composer should install a `PSR-N`
+  conformant error handler before setting up the class loader.
+- A value of `traditional` would indicate that Composer should not install an
+  error handler.
+
+During the normal process of dependency resolution, components that require
+incompatible error handling strategies would be highlighted as conflicts. This
+brings the problem to the attention of the package developer, and allows them to
+make informed decisions about how to address the conflict.
+
+In addition to these new properties, some mechanism may have to be introduced to
+allow package developers to ignore these conflicts.
+
 ### 3.3. Solution B: Error handling specification through Composer meta-packages
 
 ## 4. Justification for design decisions

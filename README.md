@@ -9,7 +9,7 @@ handler.*
 ## The standards documents
 
 - The main error handler spec: [error-handler.md](error-handler.md).
-- Justification/recommendations: [error-handler-meta.md](error-handler-meta.md).
+- Justification and other info: [error-handler-meta.md](error-handler-meta.md).
 
 ## Running the test suite
 
