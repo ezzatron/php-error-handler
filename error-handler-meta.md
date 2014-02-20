@@ -258,12 +258,12 @@ use traditional error handling:
 ### 3.3. Solution B: Error handling management via existing Composer features
 
 This solution involves implementing error handling management by harnessing the
-existing Composer dependency resolution system and [metapackages]. This solution
-could be implemented with very little effort (at least in terms of development).
+existing Composer dependency resolution system and 'virtual packages'. This
+solution could be implemented with very little effort.
 
-Package developers would add special metapackages to their Composer
+Package developers would add special virtual packages to their Composer
 configuration's [require] section to specify their error handling requirements.
-Two metapackages would be defined, and published to [Packagist] by the FIG:
+Two virtual packages would be officially sanctioned by the FIG:
 `psr/error-exceptions` and `psr/traditional-errors`.
 
 - Requiring `psr/error-exceptions` would indicate that the package expects a
@@ -271,12 +271,12 @@ Two metapackages would be defined, and published to [Packagist] by the FIG:
   number of the error handler specification associated with this meta document.
 - Requiring `psr/traditional-errors` would indicate that the package expects the
   error handler to behave in the same manner as the built-in PHP handler.
-- Requiring neither of the metapackages would implicitly indicate that the
+- Requiring neither of the virtual packages would implicitly indicate that the
   package is capable of functioning under either error handling strategy.
 
 Root package developers would specify the type of error handling strategy in use
-by adding one of the metapackages to their Composer configuration's [provide]
-section.
+by adding one of the virtual packages to their Composer configuration's
+[provide] section.
 
 - Providing `psr/error-exceptions` would indicate that a `PSR-N` conformant
   error handler will be installed.
@@ -384,7 +384,6 @@ Root package providing traditional error handling:
 [Composer]: https://getcomposer.org/
 [config]: https://getcomposer.org/doc/04-schema.md#config
 [ErrorException]: http://php.net/manual/en/class.errorexception.php
-[metapackages]: https://getcomposer.org/doc/04-schema.md#type
 [Packagist]: https://packagist.org/
 [provide]: https://getcomposer.org/doc/04-schema.md#provide
 [require]: https://getcomposer.org/doc/04-schema.md#require
