@@ -72,6 +72,9 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
         $handler = new ErrorHandler;
         error_reporting(0);
 
-        $this->assertFalse($handler($severity, 'Error message.', '/path/to/file', 111));
+        $this->assertSame(
+            E_DEPRECATED !== $severity && E_USER_DEPRECATED !== $severity,
+            $handler($severity, 'Error message.', '/path/to/file', 111)
+        );
     }
 }

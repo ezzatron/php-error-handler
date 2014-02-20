@@ -294,6 +294,11 @@ make informed decisions about how to address the conflict.
 If root package developers need to ignore conflicts, they can simply provide
 both `psr/error-exceptions` and `psr/traditional-errors`.
 
+This solution could also be achieved by adding formal virtual packages to
+Composer, in the same fashion as the `php` virtual package currently allows
+the package to specify its PHP version requirements. In this case, the `psr/`
+prefix could likely be dropped from the package names.
+
 #### 3.3.1. Pros
 
 - Little effort is required to implement.
@@ -369,11 +374,56 @@ Root package providing traditional error handling:
 
 ## 4. Justification for design decisions
 
-*TBD*
+### 4.1. Why not ignore notices/warnings?
 
-### 4.1. Why error severity is a poor metric
+Severity is a poor indicator of how an error should be handled. Aside from
+deprecation messages, all traditional PHP error messages indicate that something
+is wrong with the code.
 
-*TBD*
+The problem with severity is that the decision of whether an error condition can
+safely by ignored is pushed onto the developer producing the error. The exact
+same error may be catastrophic in one circumstance, and trivial in another.
+Hence the decision of 'severity' should be made by the error consumer, not the
+producer.
+
+Severity can also be abused. Developers may use a notice, when a warning is
+more appropriate. Whether from inexperience, or in a misguided attempt to make
+code 'easier' to use, the outcome is that severity is a very loose metric on
+which to base decisions.
+
+Treating all severities as equal puts control in the hands of the error
+consumer, where it is needed most. In addition, severity can still be manually
+inspected by the error consumer if absolutely necessary.
+
+### 4.2. Why support the error control operator (`@` suppression)?
+
+Adding support for the error control operator is trivial, and improves
+interoperability with existing code. Code like the following is still fairly
+common:
+
+```php
+if (!$stream = @fopen('/path/to/file', 'rb')) {
+    // handle error condition
+}
+```
+
+This approach can be a quick-and-dirty way to support both error handling
+strategies. This does **not** mean that use of the error control operator is
+recommended. Preferable alternatives to error suppression will be discussed in
+another part of this document.
+
+#### 4.2.1. Performance considerations
+
+It is often stated that the error control operator is 'slow'. This is not
+technically true. Performance problems *can* arise when using the in-built PHP
+error handler in tandem with `@` suppression, and error logging. This is because
+each suppressed error still results in an entry in the error log. When a
+suppressed error occurs many times (inside a loop for example), the I/O cost can
+become significant.
+
+It is for this reason that the error handler specification recommends that no
+logging, or other performance-intensive operations are performed when error
+suppression is enabled.
 
 ## 5. Best practices going forward
 

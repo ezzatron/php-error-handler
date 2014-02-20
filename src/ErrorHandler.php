@@ -26,7 +26,7 @@ class ErrorHandler
             return false;
         }
         if (0 === error_reporting()) {
-            return false;
+            return true;
         }
 
         throw new ErrorException($message, 0, $severity, $path, $lineNumber);

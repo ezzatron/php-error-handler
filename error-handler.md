@@ -19,6 +19,9 @@ improved interoperability through consistency of error behavior.
   `E_DEPRECATED` or `E_USER_DEPRECATED`.
 - The error handler MUST NOT throw an exception if the error control operator
   (`@`) is in use.
+- The error handler SHOULD NOT log errors, or perform other
+  performance-intensive operations if the error control operator (`@`) is in
+  use, unless the error's severity is `E_DEPRECATED` or `E_USER_DEPRECATED`.
 - The exception methods `getSeverity()`, `getMessage()`, `getFile()`, and
   `getLine()` MUST return identical values to those passed to the error handler.
 - Exceptions thrown MAY be a subclass of [ErrorException].
@@ -34,7 +37,7 @@ set_error_handler(
             return false;
         }
         if (0 === error_reporting()) {
-            return false;
+            return true;
         }
 
         throw new ErrorException($message, 0, $severity, $path, $lineNumber);
