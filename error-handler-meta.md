@@ -42,7 +42,7 @@ expressed in an error message.
 
 #### 2.1.3. Adoption of exception-throwing error handlers
 
-As PHP 5 matured, developers began to explore using error handlers that used
+As PHP 5 matured, developers began to explore using error handlers that utilized
 thrown [ErrorException] instances to replace traditional error handling
 strategies. This approach proved successful and popular over time, and is the
 typical approach found in today's major frameworks.
@@ -395,7 +395,14 @@ Treating all severities as equal puts control in the hands of the error
 consumer, where it is needed most. In addition, severity can still be manually
 inspected by the error consumer if absolutely necessary.
 
-### 4.2. Why support the error control operator (`@` suppression)?
+### 4.2. Why ignore deprecation messages?
+
+Deprecation messages are not run-time errors. Notices, warnings, and errors all
+point to problems that can potentially be fixed as a part of the program's
+execution. Deprecation messages are distinct in that they point to problems that
+can only truly be fixed by making modifications to source code.
+
+### 4.3. Why support the error control operator (`@` suppression)?
 
 Adding support for the error control operator is trivial, and improves
 interoperability with existing code. Code like the following is still fairly
@@ -412,7 +419,7 @@ strategies. This does **not** mean that use of the error control operator is
 recommended. Preferable alternatives to error suppression will be discussed in
 another part of this document.
 
-#### 4.2.1. Performance considerations
+#### 4.3.1. Performance considerations
 
 It is often stated that the error control operator is 'slow'. This is not
 technically true. Performance problems *can* arise when using the in-built PHP
@@ -427,7 +434,74 @@ suppression is enabled.
 
 ## 5. Best practices going forward
 
-*TBD*
+### 5.1. Handling errors under `PSR-N`
+
+Handling errors when using a `PSR-N` handler is simple. Simply surround the
+error-producing statement with a `try`/`catch` statement that handles
+[ErrorException] instances:
+
+```php
+$path = '/path/to/file';
+try {
+    $stream = fopen($path, 'rb');
+} catch (ErrorException $e) {
+    throw new FileReadException($path, $e);
+}
+```
+
+Notice that in this example, the error exception is passed to the newly created
+`FileReadException` as the 'previous' exception. This is called 'exception
+chaining', and allows inspection of the exception to determine the root cause of
+a problem.
+
+### 5.2. Throw exceptions instead of raising errors
+
+Instead of raising errors with `trigger_error()`, throw a custom exception that
+clearly expresses the error condition. Avoid re-using the same exception class
+when your code can produce multiple different error conditions, as it makes
+handling them more difficult.
+
+If you need to group multiple exceptions so that they can be caught by a single
+`catch` statement, avoid extending other concrete extensions. A better solution
+for exception grouping is to use an interface to mark the related exceptions.
+Interfaces can be used by `catch` statements in the same manner as regular class
+names.
+
+### 5.3. Avoid error suppression
+
+Error suppression is almost always a bad idea. There are exceptions to this
+rule, especially when using traditional error handling. For example, avoiding
+warnings when using `fopen()`:
+
+```php
+if (!$stream = @fopen('/path/to/file', 'rb')) {
+    // handle error condition
+}
+```
+
+These warnings cannot be completely avoided just by checking that the file can
+be read beforehand. There is still the possibility that the file may be deleted
+in between checking for readability, and trying to open it.
+
+A `PSR-N` conformant error handler offers a better way to handle these
+situations. The following code handles unreadable files in all situations:
+
+```php
+try {
+    $stream = fopen('/path/to/file', 'rb');
+} catch (ErrorException $e) {
+    // handle error condition
+}
+```
+
+Unfortunately there are still some rare situations where error suppression may
+be the only viable solution to a genuine problem. For example, an internal PHP
+function that raises a notice before performing an important part of its
+execution. Under a `PSR-N` error handler, these notices are thrown as
+exceptions, causing the internal function's execution to be cut short. Arguably,
+these situations should be raised as bugs and fixed in PHP, but from a pragmatic
+standpoint, an immediate solution is sometimes required, and error suppression
+fits this bill.
 
 <!-- References -->
 
