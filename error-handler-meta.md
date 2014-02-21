@@ -419,6 +419,15 @@ strategies. This does **not** mean that use of the error control operator is
 recommended. Preferable alternatives to error suppression will be discussed in
 another part of this document.
 
+Unfortunately there are still some rare situations where error suppression may
+be the only viable solution to a genuine problem. For example, an internal PHP
+function that raises a notice before performing an important part of its
+execution. Under a `PSR-N` error handler, these notices are thrown as
+exceptions, causing the internal function's execution to be cut short. Arguably,
+these situations should be raised as bugs and fixed in PHP, but from a pragmatic
+standpoint, an immediate solution is sometimes required, and error suppression
+fits this bill.
+
 #### 4.3.1. Performance considerations
 
 It is often stated that the error control operator is 'slow'. This is not
@@ -467,7 +476,54 @@ for exception grouping is to use an interface to mark the related exceptions.
 Interfaces can be used by `catch` statements in the same manner as regular class
 names.
 
-### 5.3. Avoid error suppression
+### 5.3. Avoid errors for non-exceptional conditions
+
+As a general rule, both errors and exceptions should be avoided if the
+conditions that cause them are common occurrences. Exceptions are expensive
+performance-wise, because a stack trace is built when they are created. In many
+cases, use of a boolean type is sufficient to indicate whether an operation was
+successful.
+
+Consider an object that wraps an array, and throws exceptions when an undefined
+index is requested:
+
+```php
+class ArrayAccessor
+{
+    public function get($index)
+    {
+        if (!array_key_exists($index, $this->values)) {
+            throw new UndefinedIndexException($index);
+        }
+    }
+
+    public $values;
+}
+```
+
+If this code is called often, a better solution might be to use a boolean return
+type, and a pass-by-reference argument:
+
+```php
+class ArrayAccessor
+{
+    public function get($index, &$value)
+    {
+        $value = null;
+        if (array_key_exists($index, $this->values)) {
+            $value = $this->values[$index];
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public $values;
+}
+```
+
+### 5.4. Avoid error suppression
 
 Error suppression is almost always a bad idea. There are exceptions to this
 rule, especially when using traditional error handling. For example, avoiding
@@ -493,15 +549,6 @@ try {
     // handle error condition
 }
 ```
-
-Unfortunately there are still some rare situations where error suppression may
-be the only viable solution to a genuine problem. For example, an internal PHP
-function that raises a notice before performing an important part of its
-execution. Under a `PSR-N` error handler, these notices are thrown as
-exceptions, causing the internal function's execution to be cut short. Arguably,
-these situations should be raised as bugs and fixed in PHP, but from a pragmatic
-standpoint, an immediate solution is sometimes required, and error suppression
-fits this bill.
 
 <!-- References -->
 
