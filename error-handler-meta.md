@@ -476,7 +476,7 @@ for exception grouping is to use an interface to mark the related exceptions.
 Interfaces can be used by `catch` statements in the same manner as regular class
 names.
 
-### 5.3. Avoid errors for non-exceptional conditions
+### 5.3. Avoid creating exceptions in non-exceptional circumstances
 
 As a general rule, both errors and exceptions should be avoided if the
 conditions that cause them are common occurrences. Exceptions are expensive
