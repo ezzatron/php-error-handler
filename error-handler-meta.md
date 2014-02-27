@@ -51,9 +51,9 @@ typical approach found in today's major frameworks.
 
 PHP is in a state of limbo with regards to error handling. In general, code is
 either written to expect a runtime environment where exceptions are thrown to
-represent errors, or to expect traditional error handling. Code that is designed
-to work identically in either environment is exceedingly rare. This leads to a
-hidden, and potentially dangerous, interoperability issue.
+represent errors, or it is written to expect traditional error handling. Code
+that is designed to work identically in either environment is exceedingly rare.
+This leads to a hidden, and potentially dangerous, interoperability issue.
 
 #### 2.2.1. Expecting traditional errors
 
@@ -156,7 +156,7 @@ strategies hinder code re-use, and foster mistrust in the code of others.
 
 - Packages / projects / frameworks / components need a way to specify the types
   of error handling they support.
-- Consumers who pull in these packages as dependencies need a way to insure that
+- Consumers who pull in these packages as dependencies need a way to ensure that
   they have chosen compatible packages.
 - Error handlers form a part of the PHP runtime environment. Ideally, a
   spec-conformant error handler should be installed before any other code is
@@ -204,17 +204,17 @@ make informed decisions about how to address the conflict.
 In addition to these new properties, some mechanism may have to be introduced to
 allow package developers to ignore conflicts.
 
-#### 3.2.1. Pros
+#### 3.2.1. Pros of solution A
 
 - Error handling requirements are expressed clearly and succinctly.
 - The error handler is guaranteed to be installed before any errors occur.
 - First-class support in Composer would allow for clearer conflict messages.
 
-#### 3.2.2. Cons
+#### 3.2.2. Cons of solution A
 
 - Introducing new Composer features would take time and effort.
 
-#### 3.2.3. Example package configurations
+#### 3.2.3. Example package configurations for solution A
 
 Package requiring PSR-N error handling:
 
@@ -299,12 +299,12 @@ Composer, in the same fashion as the `php` virtual package currently allows
 the package to specify its PHP version requirements. In this case, the `psr/`
 prefix could likely be dropped from the package names.
 
-#### 3.3.1. Pros
+#### 3.3.1. Pros of solution B
 
 - Little effort is required to implement.
 - Requires no new Composer features.
 
-#### 3.3.2. Cons
+#### 3.3.2. Cons of solution B
 
 - Error handling requirements are not expressed as clearly as solution A.
 - Stating that a package provides a particular handler is a weak guarantee. The
@@ -312,7 +312,7 @@ prefix could likely be dropped from the package names.
   making it more prone to human error.
 - Conflict messages produced by Composer may be unclear.
 
-#### 3.3.3. Example package configurations
+#### 3.3.3. Example package configurations for solution B
 
 Package requiring PSR-N error handling:
 
@@ -495,9 +495,19 @@ class ArrayAccessor
         if (!array_key_exists($index, $this->values)) {
             throw new UndefinedIndexException($index);
         }
+
+        return $this->values[$index];
     }
 
     public $values;
+}
+
+$accessor = new ArrayAccessor($array);
+try {
+    $value = $accessor->get(0);
+    // index 0 exists
+} catch (UndefinedIndexException $e) {
+    // index 0 does not exist
 }
 ```
 
@@ -521,13 +531,21 @@ class ArrayAccessor
 
     public $values;
 }
+
+$accessor = new ArrayAccessor($array);
+if ($accessor->get(0, $value)) {
+    // index 0 exists
+} else {
+    // index 0 does not exist
+}
 ```
 
 ### 5.4. Avoid error suppression
 
 Error suppression is almost always a bad idea. There are exceptions to this
-rule, especially when using traditional error handling. For example, avoiding
-warnings when using `fopen()`:
+rule, especially when using traditional error handling, but in general they
+should be avoided if at all possible. For example, avoiding warnings when using
+`fopen()` is a common use-case for error suppression:
 
 ```php
 if (!$stream = @fopen('/path/to/file', 'rb')) {
