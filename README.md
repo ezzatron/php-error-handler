@@ -23,7 +23,7 @@ handler.*
 [PHPUnit]: http://phpunit.de/
 
 [Composer]: http://getcomposer.org/
-[build-image]: http://img.shields.io/travis/ezzatron/php-error-handling/develop.svg "Current build status for the develop branch"
-[Current build status]: https://travis-ci.org/ezzatron/php-error-handling
-[coverage-image]: http://img.shields.io/coveralls/ezzatron/php-error-handling/develop.svg "Current test coverage for the develop branch"
-[Current coverage status]: https://coveralls.io/r/ezzatron/php-error-handling
+[build-image]: http://img.shields.io/travis/ezzatron/php-error-handler/develop.svg "Current build status for the develop branch"
+[Current build status]: https://travis-ci.org/ezzatron/php-error-handler
+[coverage-image]: http://img.shields.io/coveralls/ezzatron/php-error-handler/develop.svg "Current test coverage for the develop branch"
+[Current coverage status]: https://coveralls.io/r/ezzatron/php-error-handler
