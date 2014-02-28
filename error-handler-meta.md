@@ -176,10 +176,10 @@ ideal situation.
 
 A new optional property `error-handling` would be added to the Composer package
 configuration schema. This property would allow one of three string values:
-`PSR-N`, `traditional`, or `any`, with `any` being the default.
+`PSR-X`, `traditional`, or `any`, with `any` being the default.
 
-- A value of `PSR-N` would indicate that the package expects a `PSR-N`
-  conformant error handler to be installed, where `PSR-N` is the PSR number of
+- A value of `PSR-X` would indicate that the package expects a `PSR-X`
+  conformant error handler to be installed, where `PSR-X` is the PSR number of
   the error handler specification associated with this meta document.
 - A value of `traditional` would indicate that the package expects the error
   handler to behave in the same manner as the built-in PHP handler.
@@ -189,9 +189,9 @@ configuration schema. This property would allow one of three string values:
 Another optional property `use-error-handling` would be added under the
 project-only section ([config]) of the Composer package configuration schema.
 This property, used only in root packages, would allow one of two string values:
-`PSR-N`, or `traditional`, with `PSR-N` being the default.
+`PSR-X`, or `traditional`, with `PSR-X` being the default.
 
-- A value of `PSR-N` would indicate that Composer should install a `PSR-N`
+- A value of `PSR-X` would indicate that Composer should install a `PSR-X`
   conformant error handler before setting up the class loader.
 - A value of `traditional` would indicate that Composer should not install an
   error handler.
@@ -216,7 +216,7 @@ allow package developers to ignore conflicts.
 
 #### 3.2.3. Example package configurations for solution A
 
-Package requiring PSR-N error handling:
+Package requiring PSR-X error handling:
 
 ```json
 {
@@ -230,7 +230,7 @@ Package requiring PSR-N error handling:
             "Vendor\\Package\\": "src"
         }
     },
-    "error-handling": "PSR-N"
+    "error-handling": "PSR-X"
 }
 ```
 
@@ -267,7 +267,7 @@ Two virtual packages would be officially sanctioned by the FIG:
 `psr/error-exceptions` and `psr/traditional-errors`.
 
 - Requiring `psr/error-exceptions` would indicate that the package expects a
-  `PSR-N` conformant error handler to be installed, where `PSR-N` is the PSR
+  `PSR-X` conformant error handler to be installed, where `PSR-X` is the PSR
   number of the error handler specification associated with this meta document.
 - Requiring `psr/traditional-errors` would indicate that the package expects the
   error handler to behave in the same manner as the built-in PHP handler.
@@ -278,7 +278,7 @@ Root package developers would specify the type of error handling strategy in use
 by adding one of the virtual packages to their Composer configuration's
 [provide] section.
 
-- Providing `psr/error-exceptions` would indicate that a `PSR-N` conformant
+- Providing `psr/error-exceptions` would indicate that a `PSR-X` conformant
   error handler will be installed.
 - Providing `psr/traditional-errors` would indicate that the installed error
   handler will behave like the in-built PHP handler.
@@ -314,7 +314,7 @@ prefix could likely be dropped from the package names.
 
 #### 3.3.3. Example package configurations for solution B
 
-Package requiring PSR-N error handling:
+Package requiring PSR-X error handling:
 
 ```json
 {
@@ -332,7 +332,7 @@ Package requiring PSR-N error handling:
 }
 ```
 
-Root package providing PSR-N error handling:
+Root package providing PSR-X error handling:
 
 ```json
 {

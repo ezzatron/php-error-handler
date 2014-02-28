@@ -21,7 +21,7 @@ improved interoperability through consistency of error behavior.
   (`@`) is in use.
 - The error handler SHOULD NOT log errors, or perform other
   performance-intensive operations if the error control operator (`@`) is in
-  use, unless the error's severity is `E_DEPRECATED` or `E_USER_DEPRECATED`.
+  use.
 - The exception methods `getSeverity()`, `getMessage()`, `getFile()`, and
   `getLine()` MUST return identical values to those passed to the error handler.
 - Exceptions thrown MAY be a subclass of [ErrorException].
