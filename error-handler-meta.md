@@ -422,7 +422,7 @@ another part of this document.
 Unfortunately there are still some rare situations where error suppression may
 be the only viable solution to a genuine problem. For example, an internal PHP
 function that raises a notice before performing an important part of its
-execution. Under a `PSR-N` error handler, these notices are thrown as
+execution. Under a `PSR-X` error handler, these notices are thrown as
 exceptions, causing the internal function's execution to be cut short. Arguably,
 these situations should be raised as bugs and fixed in PHP, but from a pragmatic
 standpoint, an immediate solution is sometimes required, and error suppression
@@ -443,9 +443,9 @@ suppression is enabled.
 
 ## 5. Best practices going forward
 
-### 5.1. Handling errors under `PSR-N`
+### 5.1. Handling errors under `PSR-X`
 
-Handling errors when using a `PSR-N` handler is simple. Simply surround the
+Handling errors when using a `PSR-X` handler is simple. Simply surround the
 error-producing statement with a `try`/`catch` statement that handles
 [ErrorException] instances:
 
@@ -555,7 +555,7 @@ These warnings cannot be completely avoided just by checking that the file can
 be read beforehand. There is still the possibility that the file may be deleted
 in between checking for readability, and trying to open it.
 
-A `PSR-N` conformant error handler offers a better way to handle these
+A `PSR-X` conformant error handler offers a better way to handle these
 situations. The following code handles unreadable files in all situations:
 
 ```php
@@ -569,7 +569,7 @@ try {
 ## 6. Conclusion
 
 This document has tried to anticipate and address some of the questions that are
-likely to be raised concerning the `PSR-N` document itself, but there is still
+likely to be raised concerning the `PSR-X` document itself, but there is still
 much discussion to be had. Please direct such discussion to the PHP-FIG [mailing
 list].
 
