@@ -397,10 +397,10 @@ inspected by the error consumer if absolutely necessary.
 
 ### 4.2. Why ignore deprecation messages?
 
-Deprecation messages are not run-time errors. Notices, warnings, and errors all
-point to problems that can potentially be fixed as a part of the program's
-execution. Deprecation messages are distinct in that they point to problems that
-can only truly be fixed by making modifications to source code.
+Deprecation messages are not run-time errors. Notices, warnings, and errors
+usually indicate problems that arise due to the program's execution state.
+Deprecation messages are distinct in that they point to issues that can only be
+addressed by making modifications to source code.
 
 ### 4.3. Why support the error control operator (`@` suppression)?
 
@@ -430,8 +430,8 @@ fits this bill.
 
 #### 4.3.1. Performance considerations
 
-It is often stated that the error control operator is 'slow'. This is not
-technically true. Performance problems *can* arise when using the in-built PHP
+It is often stated that the error control operator is 'slow', but this is not
+necessarily true. Performance problems *can* arise when using the in-built PHP
 error handler in tandem with `@` suppression, and error logging. This is because
 each suppressed error still results in an entry in the error log. When a
 suppressed error occurs many times (inside a loop for example), the I/O cost can
@@ -470,19 +470,16 @@ clearly expresses the error condition. Avoid re-using the same exception class
 when your code can produce multiple different error conditions, as it makes
 handling them more difficult.
 
-If you need to group multiple exceptions so that they can be caught by a single
-`catch` statement, avoid extending other concrete extensions. A better solution
-for exception grouping is to use an interface to mark the related exceptions.
-Interfaces can be used by `catch` statements in the same manner as regular class
-names.
+If you need to group multiple related exceptions so that they can be caught by a
+single `catch` statement, make each of the exception types implement a common
+interface and use that interface in the `catch` statement.
 
 ### 5.3. Avoid creating exceptions in non-exceptional circumstances
 
 As a general rule, both errors and exceptions should be avoided if the
-conditions that cause them are common occurrences. Exceptions are expensive
-performance-wise, because a stack trace is built when they are created. In many
-cases, use of a boolean type is sufficient to indicate whether an operation was
-successful.
+condition they represent occurs during regular execution. In many cases where
+there is a single common failure condition, use of a boolean type is sufficient
+to indicate whether an operation was successful.
 
 Consider an object that wraps an array, and throws exceptions when an undefined
 index is requested:
@@ -511,8 +508,9 @@ try {
 }
 ```
 
-If this code is called often, a better solution might be to use a boolean return
-type, and a pass-by-reference argument:
+If this code is called often, and it is common for the index to be undefined,
+a better solution might be to use a boolean return type, and a pass-by-reference
+argument:
 
 ```php
 class ArrayAccessor
@@ -568,6 +566,13 @@ try {
 }
 ```
 
+## 6. Conclusion
+
+This document has tried to anticipate and address some of the questions that are
+likely to be raised concerning the `PSR-N` document itself, but there is still
+much discussion to be had. Please direct such discussion to the PHP-FIG
+[mailing list].
+
 <!-- References -->
 
 [Composer]: https://getcomposer.org/
@@ -576,3 +581,4 @@ try {
 [Packagist]: https://packagist.org/
 [provide]: https://getcomposer.org/doc/04-schema.md#provide
 [require]: https://getcomposer.org/doc/04-schema.md#require
+[mailing list]: https://groups.google.com/forum/?fromgroups#!forum/php-fig
