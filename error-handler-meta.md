@@ -476,10 +476,10 @@ interface and use that interface in the `catch` statement.
 
 ### 5.3. Avoid creating exceptions in non-exceptional circumstances
 
-As a general rule, both errors and exceptions should be avoided if the
-condition they represent occurs during regular execution. In many cases where
-there is a single common failure condition, use of a boolean type is sufficient
-to indicate whether an operation was successful.
+As a general rule, both errors and exceptions should be avoided if the condition
+they represent occurs during regular execution. In many cases where there is a
+single common failure condition, use of a boolean type is sufficient to indicate
+whether an operation was successful.
 
 Consider an object that wraps an array, and throws exceptions when an undefined
 index is requested:
@@ -508,8 +508,8 @@ try {
 }
 ```
 
-If this code is called often, and it is common for the index to be undefined,
-a better solution might be to use a boolean return type, and a pass-by-reference
+If this code is called often, and it is common for the index to be undefined, a
+better solution might be to use a boolean return type, and a pass-by-reference
 argument:
 
 ```php
@@ -570,8 +570,8 @@ try {
 
 This document has tried to anticipate and address some of the questions that are
 likely to be raised concerning the `PSR-N` document itself, but there is still
-much discussion to be had. Please direct such discussion to the PHP-FIG
-[mailing list].
+much discussion to be had. Please direct such discussion to the PHP-FIG [mailing
+list].
 
 <!-- References -->
 
