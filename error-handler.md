@@ -12,8 +12,9 @@ improved interoperability through consistency of error behavior.
 
 ## 2. Specification
 
-- The error handler MUST throw an exception of type [ErrorException] when an
-  error occurs unless stated otherwise by this document.
+- The error handler MUST throw an exception when an error occurs unless stated
+  otherwise by this document.
+- Exceptions thrown MUST be of type [\ErrorException] or a subclass thereof.
 - The error handler MUST NOT halt execution.
 - The error handler MUST NOT throw an exception if the error's severity is
   `E_DEPRECATED` or `E_USER_DEPRECATED`.
@@ -24,7 +25,6 @@ improved interoperability through consistency of error behavior.
   use.
 - The exception methods `getSeverity()`, `getMessage()`, `getFile()`, and
   `getLine()` MUST return identical values to those passed to the error handler.
-- Exceptions thrown MAY be a subclass of [ErrorException].
 - The installed error handler MAY perform other operations before its execution
   completes, such as logging the error details.
 
@@ -40,12 +40,12 @@ set_error_handler(
             return true;
         }
 
-        throw new ErrorException($message, 0, $severity, $path, $lineNumber);
+        throw new \ErrorException($message, 0, $severity, $path, $lineNumber);
     }
 );
 ```
 
 <!-- References -->
 
-[ErrorException]: http://php.net/manual/en/class.errorexception.php
+[\ErrorException]: http://php.net/manual/en/class.errorexception.php
 [RFC 2119]: http://tools.ietf.org/html/rfc2119
