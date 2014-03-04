@@ -32,7 +32,7 @@ improved interoperability through consistency of error behavior.
 
 ```php
 set_error_handler(
-    function ($severity, $message, $path, $lineNumber) {
+    function ($severity, $message, $path = '', $lineNumber = 0) {
         if (E_DEPRECATED === $severity || E_USER_DEPRECATED === $severity) {
             return false;
         }

@@ -20,7 +20,7 @@ class ErrorHandler
      * @return boolean        True if the error was handled, otherwise false.
      * @throws ErrorException Representing the error, unless the error is a deprecation message, or '@' suppression is in use.
      */
-    public function __invoke($severity, $message, $path, $lineNumber)
+    public function __invoke($severity, $message, $path = '', $lineNumber = 0)
     {
         if (E_DEPRECATED === $severity || E_USER_DEPRECATED === $severity) {
             return false;

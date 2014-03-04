@@ -17,7 +17,7 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
         error_reporting($this->errorReporting);
     }
 
-    public function handleErrorData()
+    public function handlerData()
     {
         //                               severity             isHandled
         return array(
@@ -46,9 +46,9 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider handleErrorData
+     * @dataProvider handlerData
      */
-    public function testHandleError($severity, $isHandled)
+    public function testHandler($severity, $isHandled)
     {
         $handler = new ErrorHandler;
         $error = null;
@@ -65,9 +65,9 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider handleErrorData
+     * @dataProvider handlerData
      */
-    public function testHandleErrorAtSuppression($severity, $isHandled)
+    public function testHandlerAtSuppression($severity, $isHandled)
     {
         $handler = new ErrorHandler;
         error_reporting(0);
@@ -76,5 +76,18 @@ class ErrorHandlerTest extends PHPUnit_Framework_TestCase
             E_DEPRECATED !== $severity && E_USER_DEPRECATED !== $severity,
             $handler($severity, 'Error message.', '/path/to/file', 111)
         );
+    }
+
+    public function testHandlerOptionalArguments()
+    {
+        $handler = new ErrorHandler;
+        $error = null;
+        try {
+            $handler(E_USER_NOTICE, 'Error message.');
+        } catch (ErrorException $error) {}
+
+        $this->assertEquals(new ErrorException('Error message.', 0, E_USER_NOTICE), $error);
+        $this->assertSame('', $error->getFile());
+        $this->assertSame(0, $error->getLine());
     }
 }
