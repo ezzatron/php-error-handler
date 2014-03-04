@@ -28,11 +28,11 @@ often lead to the error system being harnessed as a simple logging system.
 
 #### 2.1.2. The introduction of exceptions
 
-Shortly after PHP 5 came about, exceptions were introduced as a first-class
-feature. Exceptions provided much greater control over how error conditions were
-handled. In short, they allowed the developer to anticipate potential problems,
-and handle them gracefully; something which was much more challenging prior to
-their introduction.
+Exceptions were introduced in PHP 5.1.0 as a first-class feature. They provided
+much greater control over how error conditions were handled. In short, they
+allowed the developer to anticipate potential problems, and handle them
+gracefully; something which was much more challenging prior to their
+introduction.
 
 Despite exceptions being available, PHP retained its existing error message
 system alongside the exception system. A special exception designed to represent
