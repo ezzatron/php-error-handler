@@ -31,7 +31,7 @@ often lead to the error system being harnessed as a simple logging system.
 Shortly after PHP 5 came about, exceptions were introduced as a first-class
 feature. Exceptions provided much greater control over how error conditions were
 handled. In short, they allowed the developer to anticipate potential problems,
-and handle them gracefully. Something which was much more challenging prior to
+and handle them gracefully; something which was much more challenging prior to
 their introduction.
 
 Despite exceptions being available, PHP retained its existing error message
@@ -65,7 +65,7 @@ in use:
 $path = '/path/to/important/file';
 $stream = fopen($path, 'rb');
 if (!$stream) {
-    mail('jbond@mi5.gov.uk', 'Important file missing', 'Commence operation.');
+    mail('jbond@sis.gov.uk', 'Important file missing', 'Commence operation.');
     throw new FileReadException($path);
 }
 everythingIsOkay();
@@ -95,7 +95,7 @@ $path = '/path/to/important/file';
 try {
     $stream = fopen($path, 'rb');
 } catch (ErrorException $e) {
-    mail('jbond@mi5.gov.uk', 'Important file missing', 'Commence operation.');
+    mail('jbond@sis.gov.uk', 'Important file missing', 'Commence operation.');
     throw new FileReadException($path, $e);
 }
 everythingIsOkay();
@@ -128,7 +128,7 @@ try {
     $stream = false;
 }
 if (!$stream) {
-    mail('jbond@mi5.gov.uk', 'Important file missing', 'Commence operation.');
+    mail('jbond@sis.gov.uk', 'Important file missing', 'Commence operation.');
     throw new FileReadException($path, $e);
 }
 everythingIsOkay();

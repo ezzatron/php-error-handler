@@ -12,16 +12,16 @@ improved interoperability through consistency of error behavior.
 
 ## 2. Specification
 
-- The error handler MUST throw an exception when an error occurs unless stated
+- The error handler MUST throw an exception when an error occurs, unless stated
   otherwise by this document.
-- Exceptions thrown MUST be of type [\ErrorException] or a subclass thereof.
+- Exceptions thrown MUST be of type [\ErrorException], or a subclass thereof.
 - The error handler MUST NOT halt execution.
 - The error handler MUST NOT throw an exception if the error's severity is
   `E_DEPRECATED` or `E_USER_DEPRECATED`.
 - The error handler MUST NOT throw an exception if the error control operator
   (`@`) is in use.
 - The error handler SHOULD NOT log errors, or perform other
-  performance-intensive operations if the error control operator (`@`) is in
+  performance-intensive operations, if the error control operator (`@`) is in
   use.
 - The exception methods `getSeverity()`, `getMessage()`, `getFile()`, and
   `getLine()` MUST return identical values to those passed to the error handler.
