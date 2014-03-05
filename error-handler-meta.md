@@ -481,60 +481,51 @@ they represent occurs during regular execution. In many cases where there is a
 single common failure condition, use of a boolean type is sufficient to indicate
 whether an operation was successful.
 
-Consider an object that wraps an array, and throws exceptions when an undefined
-index is requested:
+Consider a custom function designed to simplify executing basic shell commands
+that use a non-zero exit code to indicate failure:
 
 ```php
-class ArrayAccessor
+function executeCommand($command)
 {
-    public function get($index)
-    {
-        if (!array_key_exists($index, $this->values)) {
-            throw new UndefinedIndexException($index);
-        }
-
-        return $this->values[$index];
+    exec($command, $outputLines, $exitCode);
+    if (0 === $exitCode) {
+        return implode("\n", $outputLines) . "\n";
     }
 
-    public $values;
+    throw new ExecutionFailedException($exitCode);
 }
 
-$accessor = new ArrayAccessor($array);
 try {
-    $value = $accessor->get(0);
-    // index 0 exists
-} catch (UndefinedIndexException $e) {
-    // index 0 does not exist
+    $output = executeCommand('whoami');
+    // success
+} catch (ExecutionFailedException $e) {
+    // failure
 }
 ```
 
-If this code is called often, and it is common for the index to be undefined, a
-better solution might be to use a boolean return type, and a pass-by-reference
-argument:
+If this code is called often, and it is common for the executed command to fail,
+a better solution might be to use a boolean return type, and a pass-by-reference
+argument to store the command output:
 
 ```php
-class ArrayAccessor
+function executeCommand($command, &$output)
 {
-    public function get($index, &$value)
-    {
-        $value = null;
-        if (array_key_exists($index, $this->values)) {
-            $value = $this->values[$index];
+    $output = null;
+    exec($command, $outputLines, $exitCode);
 
-            return true;
-        }
+    if (0 === $exitCode) {
+        $output = implode("\n", $outputLines) . "\n";
 
-        return false;
+        return true;
     }
 
-    public $values;
+    return false;
 }
 
-$accessor = new ArrayAccessor($array);
-if ($accessor->get(0, $value)) {
-    // index 0 exists
+if (executeCommand('whoami', $output)) {
+    // success
 } else {
-    // index 0 does not exist
+    // failure
 }
 ```
 
