@@ -566,7 +566,26 @@ try {
 }
 ```
 
-## 6. Conclusion
+## 6. Analysis of current error handling trends
+
+This section details the error handling strategies of currently popular PHP
+frameworks, components, and other software. The intent being to analyze what
+strategies are currently popular, how they differ from the spec, and to identify
+how applicable `PSR-X` is to a large portion of the PHP community.
+
+### 6.n. Laravel 4
+
+*TBD*
+
+### 6.n. Symfony
+
+*TBD*
+
+### 6.n. Zend Framework
+
+*TBD*
+
+## 7. Conclusion
 
 This document has tried to anticipate and address some of the questions that are
 likely to be raised concerning the `PSR-X` document itself, but there is still
@@ -578,7 +597,8 @@ list].
 [Composer]: https://getcomposer.org/
 [config]: https://getcomposer.org/doc/04-schema.md#config
 [ErrorException]: http://php.net/manual/en/class.errorexception.php
+[Laravel error handling code at version 4.1.23]: https://github.com/laravel/framework/blob/v4.1.23/src/Illuminate/Exception/Handler.php#L129
+[mailing list]: https://groups.google.com/forum/?fromgroups#!forum/php-fig
 [Packagist]: https://packagist.org/
 [provide]: https://getcomposer.org/doc/04-schema.md#provide
 [require]: https://getcomposer.org/doc/04-schema.md#require
-[mailing list]: https://groups.google.com/forum/?fromgroups#!forum/php-fig

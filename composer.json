@@ -21,5 +21,8 @@
         "psr-4": {
             "Psr\\Error\\": "src"
         }
-    }
+    },
+    "bin": [
+        "bin/psr-x-error-handler-test"
+    ]
 }

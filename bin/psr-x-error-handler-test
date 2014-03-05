@@ -1,0 +1,177 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Test suite for PSR-X error handler compliance.
+ */
+
+if (!isset($_SERVER['argv'][1])) {
+    echo 'Usage: psr-x-error-handler-test <bootstrap-path>' . PHP_EOL;
+
+    exit;
+}
+
+echo 'Testing the error handler at the supplied path for PSR-X compliance';
+echo PHP_EOL . PHP_EOL;
+
+$isAllPassed = true;
+$isAllPassed &= test(
+    'Throws an exception when an error occurs',
+    "trigger_error('', E_USER_NOTICE);",
+    '/^TEST CAUGHT/',
+    '/^$/'
+);
+$isAllPassed &= test(
+    'Throws an \ErrorException instance when an error occurs',
+    "trigger_error('', E_USER_NOTICE);",
+    '/^TEST CAUGHT ERROR/',
+    '/^$/'
+);
+$isAllPassed &= test(
+    'Does not halt execution for E_USER_ERROR level messages',
+    "trigger_error('', E_USER_ERROR);",
+    '/^TEST END$/m',
+    '/^$/'
+);
+$isAllPassed &= test(
+    'Does not throw an exception for deprecation messages',
+    "trigger_error('message', E_USER_DEPRECATED);",
+    '/^TEST END$/',
+    '/^PHP Deprecated:  message in Command line code on line 3$/'
+);
+$isAllPassed &= test(
+    'Does not throw an exception when error suppression is in use',
+    "@trigger_error('', E_USER_ERROR);",
+    '/^TEST END$/',
+    '/^$/'
+);
+$isAllPassed &= test(
+    'Does not log errors when error suppression is in use',
+    "@trigger_error('message', E_USER_DEPRECATED);",
+    '/^TEST END$/',
+    '/^$/'
+);
+$isAllPassed &= test(
+    'Does not modify error handler arguments',
+    "trigger_error('message', E_USER_NOTICE);",
+    sprintf(
+        "/^TEST CAUGHT ERROR 'message', %d, 'Command line code', 3$/m",
+        E_USER_NOTICE
+    ),
+    '/^$/'
+);
+
+echo PHP_EOL;
+if ($isAllPassed) {
+    echo 'Error handler appears to be PSR-X compliant.';
+} else {
+    echo 'Error handler is NOT PSR-X compliant.';
+}
+echo PHP_EOL;
+
+function test($label, $source, $expectedStdout, $expectedStderr)
+{
+    printf("- %s ", $label);
+
+    list($exitCode, $stdout, $stderr) = executePhp($source);
+    $stdout = normalizeEols($stdout);
+    $stderr = normalizeEols($stderr);
+
+    $isSuccess = 0 === $exitCode;
+    $isStdoutValid = preg_match($expectedStdout, $stdout);
+    $isStderrValid = preg_match($expectedStderr, $stderr);
+    $isPassed = $isSuccess && $isStdoutValid && $isStderrValid;
+
+    printf('%s%s', $isPassed ? "\xE2\x9C\x94" : "\xE2\x9C\x98", PHP_EOL);
+    if (!$isSuccess) {
+        printf('  - Sub-process exited with code %d%s', $exitCode, PHP_EOL);
+    }
+    if (!$isStdoutValid) {
+        printf(
+            '  - Expected STDOUT to match %s. Actual STDOUT:%s%s%s',
+            $expectedStdout,
+            PHP_EOL,
+            prefixLines(normalizeEols($stdout, PHP_EOL), '    > '),
+            PHP_EOL
+        );
+    }
+    if (!$isStderrValid) {
+        printf(
+            '  - Expected STDERR to match %s. Actual STDERR:%s%s%s',
+            $expectedStderr,
+            PHP_EOL,
+            prefixLines(normalizeEols($stderr, PHP_EOL), '    > '),
+            PHP_EOL
+        );
+    }
+
+    return $isPassed;
+}
+
+function executePhp($source)
+{
+    $source = sprintf(
+        <<<'EOD'
+require %s;
+try {
+    %s
+} catch (ErrorException $e) {
+    printf(
+        'TEST CAUGHT ERROR %%s, %%s, %%s, %%s%%s',
+        var_export($e->getMessage(), true),
+        var_export($e->getSeverity(), true),
+        var_export($e->getFile(), true),
+        var_export($e->getLine(), true),
+        PHP_EOL
+    );
+} catch (Exception $e) {
+    printf('TEST CAUGHT EXCEPTION %%s%%s', get_class($e), PHP_EOL);
+}
+echo 'TEST END' . PHP_EOL;
+EOD
+        ,
+        var_export($_SERVER['argv'][1], true),
+        $source
+    );
+    $command = sprintf(
+        '%s --no-php-ini ' .
+        '--define display_errors=0 ' .
+        '--define log_errors=1 ' .
+        '--define error_reporting=-1 ' .
+        '--run %s',
+        escapeshellarg(PHP_BINDIR . '/php'),
+        escapeshellarg($source)
+    );
+    // echo $command . PHP_EOL;exit;
+    $descriptorspec = array(
+       array('pipe', 'r'),
+       array('pipe', 'w'),
+       array('pipe', 'w'),
+    );
+
+    $process = proc_open($command, $descriptorspec, $pipes);
+    if (!is_resource($process)) {
+        throw new RuntimeException('Unable to execute PHP subprocess.');
+    }
+
+    $stdout = stream_get_contents($pipes[1]);
+    $stderr = stream_get_contents($pipes[2]);
+
+    fclose($pipes[0]);
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+
+    $exitCode = proc_close($process);
+
+    return array($exitCode, $stdout, $stderr);
+}
+
+function normalizeEols($string, $to = "\n")
+{
+    return rtrim(preg_replace('/\r\n|\r|\n/', $to, $string));
+}
+
+function prefixLines($string, $prefix)
+{
+    return preg_replace('/^/', $prefix, $string);
+}
