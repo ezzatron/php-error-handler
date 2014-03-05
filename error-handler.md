@@ -25,8 +25,6 @@ improved interoperability through consistency of error behavior.
   use.
 - The exception methods `getSeverity()`, `getMessage()`, `getFile()`, and
   `getLine()` MUST return identical values to those passed to the error handler.
-- The installed error handler MAY perform other operations before its execution
-  completes, such as logging the error details.
 
 ## 3. Example implementation
 
