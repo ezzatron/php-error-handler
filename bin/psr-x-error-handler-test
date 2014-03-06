@@ -47,7 +47,7 @@ $isAllPassed &= test(
 );
 $isAllPassed &= test(
     'Does not log errors when error suppression is in use',
-    "@trigger_error('message', E_USER_DEPRECATED);",
+    "@trigger_error('message', E_USER_ERROR);",
     '/^TEST END$/',
     '/^$/'
 );

@@ -23,6 +23,7 @@
         }
     },
     "bin": [
-        "bin/psr-x-error-handler-test"
+        "bin/psr-x-error-handler-test",
+        "bin/psr-x-profile-error-suppression"
     ]
 }

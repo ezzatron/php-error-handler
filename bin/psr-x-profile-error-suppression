@@ -1,0 +1,62 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Basic profiling for error suppression performance.
+ */
+
+error_reporting(-1);
+ini_set('display_errors', false);
+ini_set('log_errors', true);
+ini_set('error_log', getcwd() . './psr-x-profile-error-suppression-error.log');
+
+echo 'Profiling error suppression performance' . PHP_EOL . PHP_EOL;
+
+profile(
+    'Non-erroring statement without suppression',
+    function () {
+        strlen('');
+    },
+    100000
+);
+profile(
+    'Non-erroring statement with suppression',
+    function () {
+        @strlen('');
+    },
+    100000
+);
+profile(
+    'Erroring statement without suppression (no logging)',
+    function () {
+        ini_set('log_errors', false);
+        trigger_error('');
+        ini_set('log_errors', true);
+    },
+    100000
+);
+profile(
+    'Erroring statement with suppression (logging enabled)',
+    function () {
+        @trigger_error('');
+    },
+    100000
+);
+
+function profile($label, $callback, $multiplier)
+{
+    $startTime = microtime(true);
+    for ($i = 0; $i < $multiplier; $i ++) {
+        $callback();
+    }
+    $endTime = microtime(true);
+    $elapsedTime = $endTime - $startTime;
+
+    printf(
+        '- %s [%d repetitions]: %0.4fs%s',
+        $label,
+        $multiplier,
+        $elapsedTime,
+        PHP_EOL
+    );
+}
