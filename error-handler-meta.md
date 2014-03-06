@@ -573,15 +573,43 @@ frameworks, components, and other software. The intent being to analyze what
 strategies are currently popular, how they differ from the spec, and to identify
 how applicable `PSR-X` is to a large portion of the PHP community.
 
+In order to test each error handler, a [PSR-X error handler conformance test
+suite] was created. Each project was installed, an error handler was manually
+bootstrapped, and the conformance test suite was run.
+
 ### 6.n. Laravel 4
 
+#### 6.n.1. Test suite results for Laravel 4
+
+- Throws an exception when an error occurs ✔
+- Throws an \ErrorException instance when an error occurs ✔
+- **Throws exceptions regardless of error reporting level ✘**
+- Does not halt execution for E_USER_ERROR level messages ✔
+- **Does not throw an exception for deprecation messages ✘**
+- Does not throw an exception when error suppression is in use ✔
+- Does not log errors when error suppression is in use ✔
+- **Does not modify error handler arguments ✘**
+
+#### 6.n.2. Analysis for Laravel 4
+
+Laravel is very close to conformance, and bringing the handler in line with
+`PSR-X` is unlikely to cause issues for existing code.
+
+Laravel's error handler will not throw exceptions if the error reporting level
+is set too low. It will also throw exceptions for deprecation messages if the
+level is set too high. These problems can both be fixed by explicitly checking
+severity levels, rather than relying on the error reporting level.
+
+This test also highlighted [a bug in Laravel's error handler] where the error
+severity was not correctly passed to the exception.
+
+Assuming these issues are fixed, the error handler is otherwise conformant.
+
+### 6.n. Symfony 2
+
 *TBD*
 
-### 6.n. Symfony
-
-*TBD*
-
-### 6.n. Zend Framework
+### 6.n. Zend Framework 2
 
 *TBD*
 
@@ -594,6 +622,7 @@ list].
 
 <!-- References -->
 
+[a bug in Laravel's error handler]: https://github.com/laravel/framework/pull/3802
 [Composer]: https://getcomposer.org/
 [config]: https://getcomposer.org/doc/04-schema.md#config
 [ErrorException]: http://php.net/manual/en/class.errorexception.php
@@ -601,4 +630,5 @@ list].
 [mailing list]: https://groups.google.com/forum/?fromgroups#!forum/php-fig
 [Packagist]: https://packagist.org/
 [provide]: https://getcomposer.org/doc/04-schema.md#provide
+[PSR-X error handler conformance test suite]: https://github.com/ezzatron/php-error-handler/blob/error-handling-trend-analysis/bin/psr-x-test-error-handler
 [require]: https://getcomposer.org/doc/04-schema.md#require

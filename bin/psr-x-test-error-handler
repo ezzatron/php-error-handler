@@ -6,7 +6,7 @@
  */
 
 if (!isset($_SERVER['argv'][1])) {
-    echo 'Usage: psr-x-error-handler-test <bootstrap-path>' . PHP_EOL;
+    echo 'Usage: psr-x-test-error-handler <bootstrap-path>' . PHP_EOL;
 
     exit;
 }
@@ -28,6 +28,12 @@ $isAllPassed &= test(
     '/^$/'
 );
 $isAllPassed &= test(
+    'Throws exceptions regardless of error reporting level',
+    "error_reporting(E_ERROR); trigger_error('', E_USER_NOTICE);",
+    '/^TEST CAUGHT ERROR/',
+    '/^$/'
+);
+$isAllPassed &= test(
     'Does not halt execution for E_USER_ERROR level messages',
     "trigger_error('', E_USER_ERROR);",
     '/^TEST END$/m',
@@ -37,7 +43,7 @@ $isAllPassed &= test(
     'Does not throw an exception for deprecation messages',
     "trigger_error('message', E_USER_DEPRECATED);",
     '/^TEST END$/',
-    '/^PHP Deprecated:  message in Command line code on line 3$/'
+    '/^PHP Deprecated:  message in Command line code on line 3$/m'
 );
 $isAllPassed &= test(
     'Does not throw an exception when error suppression is in use',
@@ -134,7 +140,7 @@ EOD
         $source
     );
     $command = sprintf(
-        '%s --no-php-ini ' .
+        '%s ' .
         '--define display_errors=0 ' .
         '--define log_errors=1 ' .
         '--define error_reporting=-1 ' .
@@ -142,7 +148,6 @@ EOD
         escapeshellarg(PHP_BINDIR . '/php'),
         escapeshellarg($source)
     );
-    // echo $command . PHP_EOL;exit;
     $descriptorspec = array(
        array('pipe', 'r'),
        array('pipe', 'w'),
@@ -173,5 +178,5 @@ function normalizeEols($string, $to = "\n")
 
 function prefixLines($string, $prefix)
 {
-    return preg_replace('/^/', $prefix, $string);
+    return preg_replace('/^/m', $prefix, $string);
 }
