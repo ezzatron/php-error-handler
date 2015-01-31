@@ -579,10 +579,10 @@ bootstrapped, and the conformance test suite was run.
 
 ### 6.n. Laravel 4
 
-#### 6.n.1. Test suite results for Laravel 4
+#### 6.n.1. Test suite results for Laravel 4.1.18
 
 - Throws an exception when an error occurs ✔
-- Throws an \ErrorException instance when an error occurs ✔
+- Throws an [ErrorException] instance when an error occurs ✔
 - **Throws exceptions regardless of error reporting level ✘**
 - Does not halt execution for E_USER_ERROR level messages ✔
 - **Does not throw an exception for deprecation messages ✘**
@@ -590,7 +590,7 @@ bootstrapped, and the conformance test suite was run.
 - Does not log errors when error suppression is in use ✔
 - **Does not modify error handler arguments ✘**
 
-#### 6.n.2. Analysis for Laravel 4
+#### 6.n.2. Analysis for Laravel 4.1.18
 
 Laravel is very close to conformance, and bringing the handler in line with
 `PSR-X` is unlikely to cause issues for existing code.
@@ -607,7 +607,27 @@ Assuming these issues are fixed, the error handler is otherwise conformant.
 
 ### 6.n. Symfony 2
 
-*TBD*
+#### 6.n.1. Test suite results for Symfony 2.4.2 (console)
+
+- **Throws an exception when an error occurs ✘**
+- **Throws an \ErrorException instance when an error occurs ✘**
+- **Throws exceptions regardless of error reporting level ✘**
+- **Does not halt execution for E_USER_ERROR level messages ✘**
+- **Does not throw an exception for deprecation messages ✘**
+- **Does not throw an exception when error suppression is in use ✘**
+- **Does not log errors when error suppression is in use ✘**
+- **Does not modify error handler arguments ✘**
+
+#### 6.n.2. Analysis for Symfony 2.4.2 (console)
+
+When run from the command line, Symfony is not conformant in any way. Its error
+handling strategy is custom, but seems to behave like the built-in PHP error
+handler for the most part.
+
+It's worth noting that Symfony's error handler implementation is complicated and
+perhaps difficult to understand. It also seems to work in conjunction with
+Symfony's exception handler in some fashion. There may be some combination of
+configuration settings that completely changes how
 
 ### 6.n. Zend Framework 2
 

@@ -17,14 +17,26 @@ echo PHP_EOL . PHP_EOL;
 $isAllPassed = true;
 $isAllPassed &= test(
     'Throws an exception when an error occurs',
-    "trigger_error('', E_USER_NOTICE);",
-    '/^TEST CAUGHT/',
+    "trigger_error('', E_USER_ERROR);",
+    '/TEST CAUGHT/',
     '/^$/'
 );
 $isAllPassed &= test(
-    'Throws an \ErrorException instance when an error occurs',
+    'Throws an exception when a warning occurs',
+    "trigger_error('', E_USER_WARNING);",
+    '/TEST CAUGHT/',
+    '/^$/'
+);
+$isAllPassed &= test(
+    'Throws an exception when a notice occurs',
     "trigger_error('', E_USER_NOTICE);",
-    '/^TEST CAUGHT ERROR/',
+    '/TEST CAUGHT/',
+    '/^$/'
+);
+$isAllPassed &= test(
+    'Throws an \ErrorException instances',
+    "trigger_error('', E_USER_ERROR);",
+    '/TEST CAUGHT ERROR/',
     '/^$/'
 );
 $isAllPassed &= test(
@@ -61,7 +73,7 @@ $isAllPassed &= test(
     'Does not modify error handler arguments',
     "trigger_error('message', E_USER_NOTICE);",
     sprintf(
-        "/^TEST CAUGHT ERROR 'message', %d, 'Command line code', 3$/m",
+        "/TEST CAUGHT ERROR 'message', %d, 'Command line code', 3/m",
         E_USER_NOTICE
     ),
     '/^$/'
